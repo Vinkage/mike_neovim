@@ -14,9 +14,9 @@ then
 
    Linux)
      echo 'Linux'
-     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-     chmod u+x nvim.appimage
-     ./nvim.appimage
+     sudo add-apt-repository ppa:neovim-ppa/unstable
+     sudo apt-get update
+     sudo apt-get install neovim
      ;;
 
    CYGWIN*|MINGW32*|MSYS*|MINGW*)
@@ -33,8 +33,6 @@ then
 else
     echo "nvim already installed"
 fi
-
-
 
 # Make nvim directories
 mkdir -p ~/.config/nvim/plugin
