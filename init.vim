@@ -60,6 +60,9 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(69) } }
 " Cheat Sheet
 Plug 'dbeniamine/cheat.sh-vim'
 
+" R plugin
+Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
+
 call plug#end()
 
 " let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
