@@ -159,8 +159,3 @@ augroup END
 nmap s <Plug>(neoterm-repl-send)
 nmap <C-Enter> <Plug>RDSendLine
 nmap <leader>s :RSend rmarkdown::render('<C-r>=expand("%:p")<cr>', 'pdf_document')
-
-augroup mike
-    autocmd!
-    autocmd BufEnter *.{r,rmd,Rmd,R} call ncm2#enable_for_buffer()
-augroup END
