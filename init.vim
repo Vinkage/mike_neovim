@@ -11,6 +11,7 @@ Plug 'tjdevries/lsp_extensions.nvim'
 " Neovim Tree shitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 " Debugger Plugins
 Plug 'puremourning/vimspector'
@@ -20,8 +21,6 @@ Plug 'szw/vim-maximizer'
 " Plug '/home/mpaulson/personal/contextprint.nvim'
 Plug 'bryall/contextprint.nvim'
 
-Plug 'rust-lang/rust.vim'
-Plug 'tweekmonster/gofmt.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
@@ -42,20 +41,10 @@ Plug 'nvim-telescope/telescope.nvim'
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
 
-Plug 'colepeters/spacemacs-theme.vim'
 Plug 'sainnhe/gruvbox-material'
-Plug 'phanviet/vim-monokai-pro'
-Plug 'flazz/vim-colorschemes'
-Plug 'chriskempson/base16-vim'
-" Plug '/home/mpaulson/personal/VimDeathmatch/client'
-
-" HARPOON!!
-" Plug '/home/mpaulson/personal/harpoon'
-" Plug '/home/mpaulson/personal/rfc-reader'
-Plug 'mhinz/vim-rfc'
 
 " Fire Nvim
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(69) } }
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 " Cheat Sheet
 Plug 'dbeniamine/cheat.sh-vim'
@@ -63,12 +52,13 @@ Plug 'dbeniamine/cheat.sh-vim'
 " R plugin
 Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
 
+Plug 'kassio/neoterm'
+
 call plug#end()
 
 " let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 let g:vimspector_install_gadgets = [ 'debugpy' ]
 
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
 
 let g:vim_be_good_log_file = 1
 let g:vim_apm_log = 1
@@ -79,6 +69,7 @@ endif
 
 let loaded_matchparen = 1
 let mapleader = " "
+
 
 nnoremap <leader>cP :lua require("contextprint").add_statement()<CR>
 nnoremap <leader>cp :lua require("contextprint").add_statement(true)<CR>
@@ -127,21 +118,31 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-" ES
-" com! W w
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
 
-" " Terminal commands
-" " ueoa is first through fourth finger left hand home row.
-" " This just means I can crush, with opposite hand, the 4 terminal positions
-" "
-" " These functions are stored in harpoon.  A plugn that I am developing
-" nmap <leader>tu :call GotoBuffer(0)<CR>
-" nmap <leader>te :call GotoBuffer(1)<CR>
-" nmap <leader>to :call GotoBuffer(2)<CR>
-" nmap <leader>ta :call GotoBuffer(3)<CR>
-" nmap <leader>nn :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-" \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-" \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+        -- Or you can define your own textobjects like this
+        ["iF"] = {
+          python = "(function_definition) @function",
+          cpp = "(function_definition) @function",
+          c = "(function_definition) @function",
+          java = "(method_declaration) @function",
+        },
+      },
+    },
+  },
+}
+EOF
 
 augroup highlight_yank
     autocmd!
@@ -155,4 +156,11 @@ augroup THE_PRIMEAGEN
     autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
 augroup END
 
+nmap s <Plug>(neoterm-repl-send)
+nmap <C-Enter> <Plug>RDSendLine
+nmap <leader>s :RSend rmarkdown::render('<C-r>=expand("%:p")<cr>', 'pdf_document')
 
+augroup mike
+    autocmd!
+    autocmd BufEnter *.{r,rmd,Rmd,R} call ncm2#enable_for_buffer()
+augroup END
