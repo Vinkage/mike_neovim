@@ -36,6 +36,12 @@ else
     echo "nvim already installed"
 fi
 
+if command -v python3 &> /dev/null
+then
+    pip3 install neovim
+    pip3 install 'python-language-server[all]'
+fi
+
 # Make nvim directories
 mkdir -p ~/.config/nvim/plugin
 mkdir -p ~/.config/nvim/after/plugin
