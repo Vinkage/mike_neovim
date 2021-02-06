@@ -1,6 +1,6 @@
 set exrc " Wont open project .nvimrc without this here
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('/Users/mike/.vim/plugged')
 
 " Neovim lsp Plugins
 Plug 'neovim/nvim-lspconfig'
@@ -44,7 +44,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'sainnhe/gruvbox-material'
 
 " Fire Nvim
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(69) } }
 
 " Cheat Sheet
 Plug 'dbeniamine/cheat.sh-vim'
@@ -58,6 +58,9 @@ call plug#end()
 
 " let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 let g:vimspector_install_gadgets = [ 'debugpy' ]
+
+let g:neoterm_eof = "\<CR>"
+let g:neoterm_bracketed_paste = 1
 
 
 let g:vim_be_good_log_file = 1
@@ -144,6 +147,20 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
+" let g:completion_chain_complete_list = {
+"     \ 'r': [
+"     \    {'mode': 'omni'},
+"     \],
+"     \ 'rmd': [
+"     \    {'mode': 'omni'},
+"     \],
+"     \ 'default': [
+"     \    {'complete_items': ['lsp', 'snippet']},
+"     \    {'mode': '<c-p>'},
+"     \    {'mode': '<c-n>'}
+"     \]
+" \}
+
 augroup highlight_yank
     autocmd!
     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 40})
@@ -158,4 +175,14 @@ augroup END
 
 nmap s <Plug>(neoterm-repl-send)
 nmap <C-Enter> <Plug>RDSendLine
-nmap <leader>s :RSend rmarkdown::render('<C-r>=expand("%:p")<cr>', 'pdf_document')
+nmap <leader>s :RSend rmarkdown::render('<C-r>=expand("%:p")<cr>', 'html_document')<cr>
+
+aug R_MIKE
+    autocmd!
+    autocmd FileType r inoremap <buffer> > <Esc>:normal! a %>%<CR>a
+    autocmd FileType rmd inoremap <buffer> > <Esc>:normal! a %>%<CR>a
+    autocmd FileType r nnoremap <buffer> K <Esc>:Rh <C-r>=expand("<cword>")<cr><cr>
+    autocmd FileType rmd nnoremap <buffer> K <Esc>:Rh <C-r>=expand("<cword>")<cr><cr>
+aug END
+
+tnoremap <C-c><C-c> <C-\><C-n>
