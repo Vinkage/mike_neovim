@@ -128,23 +128,6 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
-
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  textobjects = {
-    select = {
-      enable = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-  },
-}
-EOF
 
 augroup highlight_yank
     autocmd!
