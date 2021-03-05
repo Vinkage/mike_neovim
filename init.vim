@@ -37,6 +37,7 @@ Plug 'tpope/vim-projectionist'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
@@ -47,16 +48,22 @@ Plug 'sainnhe/gruvbox-material'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(69) } }
 
 " Cheat Sheet
-Plug 'dbeniamine/cheat.sh-vim'
+" Plug 'dbeniamine/cheat.sh-vim'
+Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/nvim-cheat.sh'
 
 " R plugin
 Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
 
 Plug 'kassio/neoterm'
 
+Plug 'psf/black', { 'branch': 'stable' }
 call plug#end()
 
 " let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+let g:python3_host_prog = $XDG_CONFIG_HOME . '/nvim/venv/bin/python3'
+
+
 let g:vimspector_install_gadgets = [ 'debugpy' ]
 
 let g:neoterm_eof = "\<CR>"
@@ -78,7 +85,7 @@ nnoremap <leader>cP :lua require("contextprint").add_statement()<CR>
 nnoremap <leader>cp :lua require("contextprint").add_statement(true)<CR>
 
 nnoremap <leader>ghw :h <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+" nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>bs /<C-R>=escape(expand("<cWORD>"), "/")<CR><CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
@@ -122,25 +129,17 @@ fun! TrimWhitespace()
 endfun
 
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
+
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   textobjects = {
     select = {
       enable = true,
       keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
-
-        -- Or you can define your own textobjects like this
-        ["iF"] = {
-          python = "(function_definition) @function",
-          cpp = "(function_definition) @function",
-          c = "(function_definition) @function",
-          java = "(method_declaration) @function",
-        },
       },
     },
   },
@@ -185,4 +184,13 @@ aug R_MIKE
     autocmd FileType rmd nnoremap <buffer> K <Esc>:Rh <C-r>=expand("<cword>")<cr><cr>
 aug END
 
+let g:neoterm_default_mod='vertical'
+
+aug PY_MIKE
+    autocmd!
+    autocmd FileType python nnoremap <leader>f :Black<CR>
+aug END
+
 tnoremap <C-c><C-c> <C-\><C-n>
+nnoremap <leader>q :copen<cr>
+nnoremap <leader>Q :cclose<cr>
