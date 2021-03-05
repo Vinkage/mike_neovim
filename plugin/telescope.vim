@@ -10,5 +10,5 @@ nnoremap <leader>pb :lua require('telescope.builtin').buffers()<CR>
 nnoremap <leader>vh :lua require('telescope.builtin').help_tags()<CR>
 nnoremap <leader>vh :lua require('telescope.builtin').help_tags()<CR>
 nnoremap <leader>vrc :lua require('mike.telescope').search_dotfiles()<CR>
-nnoremap <leader>gc :lua require('theprimeagen.telescope').git_branches()<CR>
+nnoremap <leader>gc :lua require('mike.telescope').git_branches()<CR>
 
