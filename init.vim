@@ -24,9 +24,9 @@ Plug 'bryall/contextprint.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'stsewd/fzf-checkout.vim'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+" Plug 'stsewd/fzf-checkout.vim'
 Plug 'vuciv/vim-bujo'
 Plug 'tpope/vim-dispatch'
 Plug 'gruvbox-community/gruvbox'
@@ -145,20 +145,6 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
-
-" let g:completion_chain_complete_list = {
-"     \ 'r': [
-"     \    {'mode': 'omni'},
-"     \],
-"     \ 'rmd': [
-"     \    {'mode': 'omni'},
-"     \],
-"     \ 'default': [
-"     \    {'complete_items': ['lsp', 'snippet']},
-"     \    {'mode': '<c-p>'},
-"     \    {'mode': '<c-n>'}
-"     \]
-" \}
 
 augroup highlight_yank
     autocmd!
