@@ -1,3 +1,4 @@
+" test commit
 " nnoremap <leader>gc :GBranches<CR>
 nnoremap <leader>ga :Git fetch --all<CR>
 nnoremap <leader>grum :Git rebase upstream/main<CR>
