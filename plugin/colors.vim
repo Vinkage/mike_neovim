@@ -1,5 +1,5 @@
-let g:theprimeagen_colorscheme = "gruvbox"
 fun! ColorMyPencils()
+    let g:mike_color="gruvbox"
     colorscheme gruvbox
     set background=dark
 
@@ -18,7 +18,27 @@ fun! ColorMyPencils()
     highlight netrwDir guifg=#5eacd3
     highlight qfFileName guifg=#aed75f
 endfun
+
+fun! AyuPencil()
+    let g:mike_color="ayu"
+    let ayucolor="light"
+    colorscheme ayu
+    if exists('+termguicolors')
+        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    endif
+    highlight Normal guibg=none
+endfun
+
+fun! ColorSwitch()
+    if g:mike_color == 'gruvbox'
+        call AyuPencil()
+    elseif g:mike_color == 'ayu'
+        call ColorMyPencils()
+    endif
+endfun
+
 call ColorMyPencils()
 
 " Vim with me
-nnoremap <leader>vwm :call ColorMyPencils()<CR>
+nnoremap <leader>vwm :call ColorSwitch()<CR>

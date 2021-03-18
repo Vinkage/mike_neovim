@@ -4,11 +4,11 @@ call plug#begin('/Users/mike/.vim/plugged')
 
 " Neovim lsp Plugins
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
 Plug 'tjdevries/nlua.nvim'
+Plug 'hrsh7th/nvim-compe'
 Plug 'tjdevries/lsp_extensions.nvim'
-
-" Neovim Tree shitter
+"
+" " Neovim Tree shitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -43,6 +43,7 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 "  TOOOOOOOOOOOOO
 
 Plug 'sainnhe/gruvbox-material'
+Plug 'ayu-theme/ayu-vim'
 
 " Fire Nvim
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(69) } }
@@ -60,6 +61,32 @@ Plug 'kassio/neoterm'
 Plug 'psf/black', { 'branch': 'stable' }
 call plug#end()
 
+let ayucolor = "light"
+lua <<EOF
+  require'nvim-treesitter.configs'.setup {
+    textobjects = {
+      select = {
+        enable = true,
+        keymaps = {
+          -- You can use the capture groups defined in textobjects.scm
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+
+          -- Or you can define your own textobjects like this
+          ["iF"] = {
+            python = "(function_definition) @function",
+            cpp = "(function_definition) @function",
+            c = "(function_definition) @function",
+            java = "(method_declaration) @function",
+          },
+        },
+      },
+    },
+  }
+EOF
+
 " let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 let g:python3_host_prog = $XDG_CONFIG_HOME . '/nvim/venv/bin/python3'
 
@@ -68,10 +95,6 @@ let g:vimspector_install_gadgets = [ 'debugpy' ]
 
 let g:neoterm_eof = "\<CR>"
 let g:neoterm_bracketed_paste = 1
-
-
-let g:vim_be_good_log_file = 1
-let g:vim_apm_log = 1
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -134,7 +157,7 @@ augroup highlight_yank
     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 40})
 augroup END
 
-augroup THE_PRIMEAGEN
+augroup ALWAYS_MIKE
     autocmd!
     autocmd BufWritePre * :call TrimWhitespace()
     " autocmd VimEnter * :VimApm
@@ -142,6 +165,7 @@ augroup THE_PRIMEAGEN
 augroup END
 
 nmap s <Plug>(neoterm-repl-send)
+nmap S m'gg<Plug>(neoterm-repl-send)G''
 nmap <C-Enter> <Plug>RDSendLine
 nmap <leader>s :RSend rmarkdown::render('<C-r>=expand("%:p")<cr>', 'html_document')<cr>
 
@@ -161,5 +185,3 @@ aug PY_MIKE
 aug END
 
 tnoremap <C-c><C-c> <C-\><C-n>
-nnoremap <leader>q :copen<cr>
-nnoremap <leader>Q :cclose<cr>
