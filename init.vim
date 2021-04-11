@@ -1,66 +1,54 @@
 set exrc " Wont open project .nvimrc without this here
 
 call plug#begin('/Users/mike/.vim/plugged')
-
 " Neovim lsp Plugins
 Plug 'neovim/nvim-lspconfig'
 Plug 'tjdevries/nlua.nvim'
 Plug 'hrsh7th/nvim-compe'
 Plug 'tjdevries/lsp_extensions.nvim'
-"
-" " Neovim Tree shitter
+" Neovim Tree shitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-
 " Debugger Plugins
 Plug 'puremourning/vimspector'
 Plug 'szw/vim-maximizer'
-
-" THANKS BFREDL
-" Plug '/home/mpaulson/personal/contextprint.nvim'
-Plug 'bryall/contextprint.nvim'
-
+" Vim
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
-" Plug 'stsewd/fzf-checkout.vim'
-Plug 'vuciv/vim-bujo'
+" Plug 'vuciv/vim-bujo'
 Plug 'tpope/vim-dispatch'
 Plug 'gruvbox-community/gruvbox'
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'tpope/vim-projectionist'
-
+" Plug 'tpope/vim-projectionist'
 " telescope requirements...
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
-
-"  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
-"  TOOOOOOOOOOOOO
-
+" Colors
 Plug 'sainnhe/gruvbox-material'
 Plug 'ayu-theme/ayu-vim'
-
 " Fire Nvim
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(69) } }
-
 " Cheat Sheet
 " Plug 'dbeniamine/cheat.sh-vim'
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-cheat.sh'
-
-" R plugin
+" R
 Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
-
-Plug 'kassio/neoterm'
-
+" Python
 Plug 'psf/black', { 'branch': 'stable' }
+Plug 'jupyter-vim/jupyter-vim'
+" Tex
+Plug 'donRaphaco/neotex', { 'for': 'tex' }
+" Sql
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
 call plug#end()
 
+let g:db_ui_use_nerd_fonts = 1
 let ayucolor = "light"
 lua <<EOF
   require'nvim-treesitter.configs'.setup {
@@ -92,9 +80,6 @@ let g:python3_host_prog = $XDG_CONFIG_HOME . '/nvim/venv/bin/python3'
 
 
 let g:vimspector_install_gadgets = [ 'debugpy' ]
-
-let g:neoterm_eof = "\<CR>"
-let g:neoterm_bracketed_paste = 1
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -165,7 +150,6 @@ augroup ALWAYS_MIKE
 augroup END
 
 nmap s <Plug>(neoterm-repl-send)
-nmap S m'gg<Plug>(neoterm-repl-send)G''
 nmap <C-Enter> <Plug>RDSendLine
 nmap <leader>s :RSend rmarkdown::render('<C-r>=expand("%:p")<cr>', 'html_document')<cr>
 
@@ -175,13 +159,21 @@ aug R_MIKE
     autocmd FileType rmd inoremap <buffer> > <Esc>:normal! a %>%<CR>a
     autocmd FileType r nnoremap <buffer> K <Esc>:Rh <C-r>=expand("<cword>")<cr><cr>
     autocmd FileType rmd nnoremap <buffer> K <Esc>:Rh <C-r>=expand("<cword>")<cr><cr>
+    autocmd FileType r nnoremap <buffer> s :set opfunc=SendMotionToR<CR>g@
+    autocmd FileType r inoremap <buffer> <C-s> <Esc>:set opfunc=SendMotionToR<CR>g@
+    autocmd FileType rmd nnoremap <buffer> s :set opfunc=SendMotionToR<CR>g@
 aug END
-
-let g:neoterm_default_mod='vertical'
 
 aug PY_MIKE
     autocmd!
     autocmd FileType python nnoremap <leader>f :Black<CR>
+    autocmd FileType python nmap <buffer> <silent> s <Plug>JupyterRunTextObj
+    autocmd FileType python nmap <buffer> <silent> <C-Enter> <Plug>:JupyterSendCell<CR>
+    autocmd FileType python nnoremap <cr> :JupyterSendCell<cr>
 aug END
 
+
 tnoremap <C-c><C-c> <C-\><C-n>
+onoremap f :<c-u>normal! mzggVG<cr>`z
+
+let g:tex_flavor = "latex"

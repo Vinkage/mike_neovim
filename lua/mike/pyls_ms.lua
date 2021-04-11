@@ -1,43 +1,43 @@
--- local skeleton = require 'nvim_lsp/skeleton'
--- local util = require 'nvim_lsp/util'
-local lsp = vim.lsp
-
-local name = "pyls_ms"
-
-local function get_python_version()
-  local f = io.popen("python3 --version 2>&1") -- runs command
-  local l = f:read("*a") -- read output of command
-  f:close()
-  return l:match("^Python%s*(...).*%s*$")
-end
-
-require'lspconfig'.pyls_ms.setup{
-    cmd = {"/usr/local/share/dotnet/dotnet", "exec", "/Users/mike/dotfiles/mike_neovim/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll"};
-    filetypes = {"python"};
-    log_level = lsp.protocol.MessageType.Warning;
-    settings = {
-      python = {
-        analysis = {
-          errors = {};
-          info = {};
-          disabled = {};
-        };
-      };
-    };
-    init_options = {
-      interpreter =
-                {
-                    properties=
-                    {
-                        InterpreterPath=vim.fn.exepath("python3");
-                        Version=get_python_version();
-                    };
-                };
-      displayOptions= {};
-      analysisUpdates=true;
-      asyncStartup=true;
-    };
-  };
+-- -- local skeleton = require 'nvim_lsp/skeleton'
+-- -- local util = require 'nvim_lsp/util'
+-- local lsp = vim.lsp
+--
+-- local name = "pyls_ms"
+--
+-- local function get_python_version()
+--   local f = io.popen("python3 --version 2>&1") -- runs command
+--   local l = f:read("*a") -- read output of command
+--   f:close()
+--   return l:match("^Python%s*(...).*%s*$")
+-- end
+--
+-- require'lspconfig'.pyls_ms.setup{
+--     cmd = {"/usr/local/share/dotnet/dotnet", "exec", "/Users/mike/dotfiles/mike_neovim/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll"};
+--     filetypes = {"python"};
+--     log_level = lsp.protocol.MessageType.Warning;
+--     settings = {
+--       python = {
+--         analysis = {
+--           errors = {};
+--           info = {};
+--           disabled = {};
+--         };
+--       };
+--     };
+--     init_options = {
+--       interpreter =
+--                 {
+--                     properties=
+--                     {
+--                         InterpreterPath=vim.fn.exepath("python3");
+--                         Version=get_python_version();
+--                     };
+--                 };
+--       displayOptions= {};
+--       analysisUpdates=true;
+--       asyncStartup=true;
+--     };
+--   };
 
 
 -- local skeleton = require 'nvim_lsp/skeleton'

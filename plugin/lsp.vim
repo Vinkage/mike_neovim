@@ -1,4 +1,4 @@
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noinsert,noselect,preview
 
 lua << EOF
 require'compe'.setup {
@@ -22,6 +22,7 @@ require'compe'.setup {
     nvim_lsp = true;
     nvim_lua = true;
     vsnip = true;
+    vim_dadbod_completion = true;
   };
 }
 EOF
@@ -50,8 +51,8 @@ aug END
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 "lua require'lspconfig'.tsserver.setup{ on_attach=require'completion'.on_attach }
 "lua require'lspconfig'.clangd.setup{ on_attach=require'completion'.on_attach }
-" lua require'lspconfig'.pyls.setup{ on_attach=require'completion'.on_attach }
-
+lua require'lspconfig'.pyright.setup{}
+lua require'lspconfig'.texlab.setup{}
 " lua require'lspconfig'.r_language_server.setup{ on_attach=require'completion'.on_attach }
 "lua require'lspconfig'.gopls.setup{ on_attach=require'completion'.on_attach }
 "lua require'lspconfig'.rust_analyzer.setup{ on_attach=require'completion'.on_attach }

@@ -37,10 +37,3 @@ nnoremap <expr> <c-k> NextScope() ? ':cnext<cr>':':lnext<cr>'
 nnoremap <expr> <c-j> NextScope() ? ':cprev<cr>':':lprev<cr>'
 " nnoremap <C-k> :cnext<CR>
 " nnoremap <C-j> :cprev<CR>
-
-
-
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
