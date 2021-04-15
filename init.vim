@@ -1,77 +1,85 @@
 set exrc " Wont open project .nvimrc without this here
 
 call plug#begin('/home/mike/.vim/plugged')
-
 " Neovim lsp Plugins
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
 Plug 'tjdevries/nlua.nvim'
+Plug 'hrsh7th/nvim-compe'
 Plug 'tjdevries/lsp_extensions.nvim'
-
 " Neovim Tree shitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-
 " Debugger Plugins
 Plug 'puremourning/vimspector'
 Plug 'szw/vim-maximizer'
-
-" THANKS BFREDL
-" Plug '/home/mpaulson/personal/contextprint.nvim'
-Plug 'bryall/contextprint.nvim'
-
+" Vim
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'stsewd/fzf-checkout.vim'
-Plug 'vuciv/vim-bujo'
+" Plug 'vuciv/vim-bujo'
 Plug 'tpope/vim-dispatch'
 Plug 'gruvbox-community/gruvbox'
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'tpope/vim-projectionist'
-
+" Plug 'tpope/vim-projectionist'
 " telescope requirements...
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
-
-"  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
-"  TOOOOOOOOOOOOO
-
+" Colors
 Plug 'sainnhe/gruvbox-material'
-
+Plug 'ayu-theme/ayu-vim'
 " Fire Nvim
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(69) } }
-
 " Cheat Sheet
 " Plug 'dbeniamine/cheat.sh-vim'
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-cheat.sh'
-
-" R plugin
+" R
 Plug 'jalvesaq/Nvim-R', {'branch': 'stable'}
-
-Plug 'kassio/neoterm'
-
+" Python
 Plug 'psf/black', { 'branch': 'stable' }
+Plug 'jupyter-vim/jupyter-vim'
+" Tex
+Plug 'donRaphaco/neotex', { 'for': 'tex' }
+" Sql
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
+
+Plug 'kyazdani42/nvim-web-devicons'
 call plug#end()
 
-" let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+let g:db_ui_use_nerd_fonts = 1
+let ayucolor = "light"
+lua <<EOF
+  require'nvim-treesitter.configs'.setup {
+    textobjects = {
+      select = {
+        enable = true,
+        keymaps = {
+          -- You can use the capture groups defined in textobjects.scm
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+
+          -- Or you can define your own textobjects like this
+          ["iF"] = {
+            python = "(function_definition) @function",
+            cpp = "(function_definition) @function",
+            c = "(function_definition) @function",
+            java = "(method_declaration) @function",
+          },
+        },
+      },
+    },
+  }
+EOF
+
 let g:python3_host_prog = $XDG_CONFIG_HOME . '/nvim/venv/bin/python3'
 
-
 let g:vimspector_install_gadgets = [ 'debugpy' ]
-
-let g:neoterm_eof = "\<CR>"
-let g:neoterm_bracketed_paste = 1
-
-
-let g:vim_be_good_log_file = 1
-let g:vim_apm_log = 1
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -79,7 +87,6 @@ endif
 
 let loaded_matchparen = 1
 let mapleader = " "
-
 
 nnoremap <leader>cP :lua require("contextprint").add_statement()<CR>
 nnoremap <leader>cp :lua require("contextprint").add_statement(true)<CR>
@@ -108,11 +115,6 @@ nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
 
-" vim TODO
-nmap <Leader>tu <Plug>BujoChecknormal
-nmap <Leader>th <Plug>BujoAddnormal
-let g:bujo#todo_file_path = $HOME . "/.cache/bujo"
-
 inoremap <C-c> <esc>
 
 fun! EmptyRegisters()
@@ -128,53 +130,17 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
-
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  textobjects = {
-    select = {
-      enable = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-  },
-}
-EOF
-
-" let g:completion_chain_complete_list = {
-"     \ 'r': [
-"     \    {'mode': 'omni'},
-"     \],
-"     \ 'rmd': [
-"     \    {'mode': 'omni'},
-"     \],
-"     \ 'default': [
-"     \    {'complete_items': ['lsp', 'snippet']},
-"     \    {'mode': '<c-p>'},
-"     \    {'mode': '<c-n>'}
-"     \]
-" \}
 
 augroup highlight_yank
     autocmd!
     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 40})
 augroup END
 
-augroup THE_PRIMEAGEN
+augroup ALWAYS_MIKE
     autocmd!
     autocmd BufWritePre * :call TrimWhitespace()
-    " autocmd VimEnter * :VimApm
     autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
 augroup END
-
-nmap s <Plug>(neoterm-repl-send)
-nmap <C-Enter> <Plug>RDSendLine
-nmap <leader>s :RSend rmarkdown::render('<C-r>=expand("%:p")<cr>', 'html_document')<cr>
 
 aug R_MIKE
     autocmd!
@@ -182,15 +148,21 @@ aug R_MIKE
     autocmd FileType rmd inoremap <buffer> > <Esc>:normal! a %>%<CR>a
     autocmd FileType r nnoremap <buffer> K <Esc>:Rh <C-r>=expand("<cword>")<cr><cr>
     autocmd FileType rmd nnoremap <buffer> K <Esc>:Rh <C-r>=expand("<cword>")<cr><cr>
+    autocmd FileType r nnoremap <buffer> s :set opfunc=SendMotionToR<CR>g@
+    autocmd FileType r inoremap <buffer> <C-s> <Esc>:set opfunc=SendMotionToR<CR>g@
+    autocmd FileType rmd nnoremap <buffer> s :set opfunc=SendMotionToR<CR>g@
 aug END
-
-let g:neoterm_default_mod='vertical'
 
 aug PY_MIKE
     autocmd!
     autocmd FileType python nnoremap <leader>f :Black<CR>
+    autocmd FileType python nmap <buffer> <silent> s <Plug>JupyterRunTextObj
+    autocmd FileType python nmap <buffer> <silent> <C-Enter> <Plug>:JupyterSendCell<CR>
+    autocmd FileType python nnoremap <cr> :JupyterSendCell<cr>
+    " Send whole file to jupyter console.
+    autocmd FileType python onoremap f :<c-u>normal! mzggVG<cr>`z
 aug END
 
 tnoremap <C-c><C-c> <C-\><C-n>
-nnoremap <leader>q :copen<cr>
-nnoremap <leader>Q :cclose<cr>
+
+let g:tex_flavor = "latex"

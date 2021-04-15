@@ -20,6 +20,7 @@ set noshowmode
 set signcolumn=yes
 set isfname+=@-@
 set diffopt+=vertical
+set inccommand=split
 
 " Give more space for displaying messages.
 set cmdheight=2
