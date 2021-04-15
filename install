@@ -2,9 +2,6 @@
 # install neovim if not installed
 if ! command -v nvim &> /dev/null
 then
-    # install vim plug
-    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     case "$(uname -s)" in
 
    Darwin)
@@ -14,11 +11,6 @@ then
 
    Linux)
      echo 'Linux'
-     git clone https://github.com/neovim/neovim ~/neovim
-     cd ~/neovim
-     sudo apt-get install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
-     make CMAKE_BUILD_TYPE=Release
-     sudo make install
      ;;
 
    CYGWIN*|MINGW32*|MSYS*|MINGW*)
@@ -36,11 +28,11 @@ else
     echo "nvim already installed"
 fi
 
-if command -v python3 &> /dev/null
-then
-    pip3 install neovim
-    pip3 install 'python-language-server[all]'
-fi
+# if command -v python3 &> /dev/null
+# then
+#     pip3 install neovim
+#     pip3 install 'python-language-server[all]'
+# fi
 
 # Make nvim directories
 mkdir -p ~/.config/nvim/plugin

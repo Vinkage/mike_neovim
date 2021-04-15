@@ -1,6 +1,6 @@
 set exrc " Wont open project .nvimrc without this here
 
-call plug#begin('/Users/mike/.vim/plugged')
+call plug#begin('/home/mike/.vim/plugged')
 
 " Neovim lsp Plugins
 Plug 'neovim/nvim-lspconfig'
