@@ -46,6 +46,8 @@ Plug 'donRaphaco/neotex', { 'for': 'tex' }
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'kristijanhusak/vim-dadbod-completion'
+
+Plug 'kyazdani42/nvim-web-devicons'
 call plug#end()
 
 let g:db_ui_use_nerd_fonts = 1
@@ -75,9 +77,7 @@ lua <<EOF
   }
 EOF
 
-" let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 let g:python3_host_prog = $XDG_CONFIG_HOME . '/nvim/venv/bin/python3'
-
 
 let g:vimspector_install_gadgets = [ 'debugpy' ]
 
@@ -87,7 +87,6 @@ endif
 
 let loaded_matchparen = 1
 let mapleader = " "
-
 
 nnoremap <leader>cP :lua require("contextprint").add_statement()<CR>
 nnoremap <leader>cp :lua require("contextprint").add_statement(true)<CR>
@@ -116,11 +115,6 @@ nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
 
-" vim TODO
-nmap <Leader>tu <Plug>BujoChecknormal
-nmap <Leader>th <Plug>BujoAddnormal
-let g:bujo#todo_file_path = $HOME . "/.cache/bujo"
-
 inoremap <C-c> <esc>
 
 fun! EmptyRegisters()
@@ -145,13 +139,8 @@ augroup END
 augroup ALWAYS_MIKE
     autocmd!
     autocmd BufWritePre * :call TrimWhitespace()
-    " autocmd VimEnter * :VimApm
     autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
 augroup END
-
-nmap s <Plug>(neoterm-repl-send)
-nmap <C-Enter> <Plug>RDSendLine
-nmap <leader>s :RSend rmarkdown::render('<C-r>=expand("%:p")<cr>', 'html_document')<cr>
 
 aug R_MIKE
     autocmd!
@@ -170,10 +159,10 @@ aug PY_MIKE
     autocmd FileType python nmap <buffer> <silent> s <Plug>JupyterRunTextObj
     autocmd FileType python nmap <buffer> <silent> <C-Enter> <Plug>:JupyterSendCell<CR>
     autocmd FileType python nnoremap <cr> :JupyterSendCell<cr>
+    " Send whole file to jupyter console.
+    autocmd FileType python onoremap f :<c-u>normal! mzggVG<cr>`z
 aug END
 
-
 tnoremap <C-c><C-c> <C-\><C-n>
-onoremap f :<c-u>normal! mzggVG<cr>`z
 
 let g:tex_flavor = "latex"
