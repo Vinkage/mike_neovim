@@ -1,32 +1,5 @@
 set completeopt=menuone,noinsert,noselect,preview
 
-lua << EOF
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-    vim_dadbod_completion = true;
-  };
-}
-EOF
-
 nnoremap <leader>vd :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>vi :lua vim.lsp.buf.implementation()<CR>
 nnoremap <leader>vsh :lua vim.lsp.buf.signature_help()<CR>
@@ -47,13 +20,36 @@ aug MIKE_LSP
     au BufWrite,BufEnter * :call LspLocationList()
 aug END
 
-
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-"lua require'lspconfig'.tsserver.setup{ on_attach=require'completion'.on_attach }
-"lua require'lspconfig'.clangd.setup{ on_attach=require'completion'.on_attach }
+
+lua require'lspconfig'.bashls.setup{}
 lua require'lspconfig'.pyright.setup{}
 lua require'lspconfig'.texlab.setup{}
-" lua require'lspconfig'.r_language_server.setup{ on_attach=require'completion'.on_attach }
+lua require'lspconfig'.vimls.setup{}
+lua require'lspconfig'.r_language_server.setup{}
+
+lua <<EOF
+require'lspconfig'.sqls.setup{
+  settings = {
+    sqls = {
+      connections = {
+        {
+          driver = 'mysql',
+          dataSourceName =  'mike:;lkj@tcp(127.0.0.1:3306)/fluprint',
+        },
+        {
+          driver = 'postgresql',
+          dataSourceName = 'host=127.0.0.1 port=15432 user=postgres password=mysecretpassword1234 dbname=dvdrental sslmode=disable',
+        },
+      },
+    },
+  },
+}
+EOF
+
+"
+"lua require'lspconfig'.tsserver.setup{ on_attach=require'completion'.on_attach }
+"lua require'lspconfig'.clangd.setup{ on_attach=require'completion'.on_attach }
 "lua require'lspconfig'.gopls.setup{ on_attach=require'completion'.on_attach }
 "lua require'lspconfig'.rust_analyzer.setup{ on_attach=require'completion'.on_attach }
 "lua require'lspconfig'.sourcekit.setup{ on_attach=require'completion'.on_attach }

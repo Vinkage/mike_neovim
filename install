@@ -21,32 +21,28 @@ then
    # See correspondence table at the bottom of this answer
 
    *)
-     echo 'Other OS' 
+     echo 'Other OS'
      ;;
     esac
 else
     echo "nvim already installed"
 fi
 
-# if command -v python3 &> /dev/null
-# then
-#     pip3 install neovim
-#     pip3 install 'python-language-server[all]'
-# fi
-
 # Make nvim directories
-mkdir -p ~/.config/nvim/plugin
-mkdir -p ~/.config/nvim/after/plugin
-mkdir -p ~/.config/nvim/lua
-mkdir -p ~/.config/nvim/lua/mike
+mkdir -p $XDG_CONFIG_HOME/nvim/plugin
+mkdir -p $XDG_CONFIG_HOME/nvim/after/plugin
+mkdir -p $XDG_CONFIG_HOME/nvim/lua
+mkdir -p $XDG_CONFIG_HOME/nvim/lua/mike
 
 # link wholesale
 for f in `find . -regex ".*\.vim$"`; do
-    rm -rf ~/.config/nvim/$f
-    ln -s ~/dotfiles/mike_neovim/$f ~/.config/nvim/$f
+    rm -rf $XDG_CONFIG_HOME/nvim/$f
+    ln -s $DOTFILES/mike_neovim/$f $XDG_CONFIG_HOME/nvim/$f
 done
 for f in `find . -regex ".*\.lua$"`; do
-    rm -rf ~/.config/nvim/$f
-    ln -s ~/dotfiles/mike_neovim/$f ~/.config/nvim/$f
+    rm -rf $XDG_CONFIG_HOME/nvim/$f
+    ln -s $DOTFILES/mike_neovim/$f $XDG_CONFIG_HOME/nvim/$f
 done
 
+rm $XDG_CONFIG_HOME/tmux/tmux.conf
+ln -s $DOTFILES/mike_neovim/.tmux.conf $XDG_CONFIG_HOME/tmux/tmux.conf

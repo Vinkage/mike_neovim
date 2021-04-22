@@ -1,0 +1,19 @@
+{
+    "configurations":{
+    "current file": {
+      "adapter": "debugpy",
+      "configuration": {
+        "name": "currentFile_direnv",
+        "type": "python",
+        "request": "launch",
+        "cwd": ".",
+        "python": "/home/mike/.pyenv/shims/python3",
+        "stopOnEntry": true,
+        "console": "externalTerminal",
+        "debugOptions": [],
+        "program": "${script:${file\\}}"
+      }
+    }
+   }
+}
+     

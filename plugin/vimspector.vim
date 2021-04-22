@@ -30,3 +30,5 @@ nmap <leader>dcbp <Plug>VimspectorToggleConditionalBreakpoint
 " <Plug>VimspectorPause
 " <Plug>VimspectorAddFunctionBreakpoint
 
+
+let g:vimspector_install_gadgets = [ 'debugpy' ]
