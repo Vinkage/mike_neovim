@@ -16,5 +16,3 @@ endfunction
 " Expand or jump
 imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : Ulti_available() ? '<tab>' : ''
 smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : Ulti_available() ? '<tab>' : ''
-
-

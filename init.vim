@@ -26,7 +26,6 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 " Colors
 Plug 'sainnhe/gruvbox-material'
-Plug 'ayu-theme/ayu-vim'
 " Cheat Sheet
 " Plug 'dbeniamine/cheat.sh-vim'
 Plug 'RishabhRD/popfix'
@@ -44,6 +43,9 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'SirVer/ultisnips'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'mfussenegger/nvim-jdtls'
+Plug 'mfussenegger/nvim-dap'
 call plug#end()
 
 let g:python3_host_prog = $XDG_CONFIG_HOME . '/nvim/venv/bin/python3'
@@ -113,6 +115,7 @@ aug MIKE_R
     autocmd FileType r inoremap <buffer> > <Esc>:normal! a %>%<CR>a
     autocmd FileType r nnoremap <buffer> K <Esc>:Rh <C-r>=expand("<cword>")<cr><cr>
     autocmd FileType r nnoremap <buffer> s :set opfunc=SendMotionToR<CR>g@
+    autocmd FileType r nnoremap <buffer> <leader>vh :Rhelp <c-r>=expand("<cword>")<cr><cr>
 aug END
 
 aug MIKE_PYTHON
@@ -128,6 +131,5 @@ aug END
 augroup MIKE_LATEX
   au!
   autocmd VimLeave *.tex :!texclear %:p
-  autocmd FileType tex nnoremap <cr> :!compiler %:p<cr>
+  autocmd FileType tex nnoremap <cr> :Dispatch compiler %:p<cr>
 augroup END
-

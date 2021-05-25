@@ -19,6 +19,7 @@ require'compe'.setup {
     nvim_lsp = true;
     nvim_lua = true;
     vsnip = true;
+    ultisnips = true;
     vim_dadbod_completion = true;
   };
 }

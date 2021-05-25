@@ -21,6 +21,7 @@ set signcolumn=yes
 set isfname+=@-@
 set diffopt+=vertical
 set inccommand=split
+set wmw=10
 
 " Give more space for displaying messages.
 set cmdheight=2
@@ -32,4 +33,4 @@ set updatetime=50
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
-set colorcolumn=80
+"set colorcolumn=80

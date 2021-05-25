@@ -70,6 +70,21 @@ M.search_dotfiles = function()
     })
 end
 
+M.notes_dailies = function()
+    require("telescope.builtin").quickfix({
+        prompt_title = "< Dailies >",
+        locations = vim.cmd(':cgetexpr system("rg --column \'^#.*daily note.*\'")')
+    })
+end
+
+M.notes_by_tag = function()
+    require("telescope.builtin").quickfix({
+        prompt_title = "< Notes by tag >",
+        locations = vim.cmd(':cgetexpr system("rg --column \'tags: \'")')
+    })
+end
+
+
 M.git_branches = function()
     require("telescope.builtin").git_branches({
         attach_mappings = function(prompt_bufnr, map)

@@ -12,3 +12,4 @@ nnoremap <leader>ph :lua require('telescope.builtin').help_tags()<CR>
 nnoremap <leader>vrc :lua require('mike.telescope').search_dotfiles()<CR>
 nnoremap <leader>gc :lua require('mike.telescope').git_branches()<CR>
 
+
